@@ -1,12 +1,12 @@
 class StoreController {
 	constructor(options){
-		this.stores = options.stores;
+		this.storeList = options.storeList;
 		this.initStores();
 	}
 
 	initStores(){
-		for(let n in this.stores){
-			this[this.stores[n].name] = new this.stores[n].store;
+		for(let n in this.storeList){
+			this[this.storeList[n].name] = new this.storeList[n].store;
 		}
 	}
 }
