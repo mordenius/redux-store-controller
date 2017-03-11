@@ -1,2 +1,2 @@
-export StoreClass from './src/storeClass';
-export StoreController from './src/storeController';
+export StoreClass from './storeClass';
+export StoreController from './storeController';
