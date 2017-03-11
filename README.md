@@ -6,21 +6,6 @@ Module for [redux](https://www.npmjs.com/package/redux) stores.
 ```
 npm install redux-store-controller
 ```
-### Usage with Webpack
-
-```
-...
-module: {
-    rules: [
-      {
-        test : /\.js?/,
-        include: /node_modules/,
-        use: ['babel-loader']
-      },
-    ]
-}
-...
-```
 
 ## StoreClass
 ### Usage
