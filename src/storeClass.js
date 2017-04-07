@@ -14,10 +14,12 @@ class StoreClass {
 			case 'UPDATE': state = action.value; break;
 			default: return state;
 		}
+
+		return state;
 	}
 
 	set(value){
-		this._stores.dispatch({type: 'UPDATE', value: value})
+		this._store.dispatch({type: 'UPDATE', value: value})
 	}
 
 	reset(){
