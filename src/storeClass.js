@@ -10,7 +10,14 @@ class StoreClass {
 	}
 
 	update(state, action){
-		return state;
+		switch(action.type){
+			case 'UPDATE': state = action.value; break;
+			default: return state;
+		}
+	}
+
+	set(value){
+		this._stores.dispatch({type: 'UPDATE', value: value})
 	}
 
 	reset(){
