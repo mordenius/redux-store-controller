@@ -1,3 +1,5 @@
+import StoreClass from './storeClass';
+
 class StoreController {
 	constructor(options){
 		this.storeList = options.storeList;
@@ -6,7 +8,9 @@ class StoreController {
 
 	initStores(){
 		for(let n in this.storeList){
-			this[this.storeList[n].name] = new this.storeList[n].store;
+			let store = this.storeList[n].store;
+			store = ('undefined' == store) ? StoreClass : store;
+			this[this.storeList[n].name] = new store;
 		}
 	}
 }

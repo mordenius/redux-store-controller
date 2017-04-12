@@ -100,3 +100,5 @@ let stores = new StoreController(options);
 
 stores.<storeName>.<do_something>
 ```
+
+if ```store``` field in ```storeList``` will be missing or contains undefined value, Controller will create store from StoreClass.
