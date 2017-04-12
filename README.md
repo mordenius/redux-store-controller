@@ -91,7 +91,7 @@ let options = {
     storeList: [
         {
             name: <storeName>,
-            store: <storeClas>
+            store: <storeClass>
         }
     ]
 }

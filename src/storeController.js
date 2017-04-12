@@ -9,7 +9,7 @@ class StoreController {
 	initStores(){
 		for(let n in this.storeList){
 			let store = this.storeList[n].store;
-			store = ('undefined' == store) ? StoreClass : store;
+			store = ('undefined' == typeof store) ? StoreClass : store;
 			this[this.storeList[n].name] = new store;
 		}
 	}
