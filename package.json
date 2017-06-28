@@ -1,11 +1,11 @@
 {
   "name": "redux-store-controller",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "babel --presets es2015,stage-0 -d lib/ src/",
+    "compile": "babel --presets es2015 -d lib/ src/",
     "prepublish": "npm run compile"
   },
   "repository": {
