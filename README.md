@@ -24,7 +24,7 @@ import {StoreClass} from 'redux-store-controller';
 
 class SomeStore extends StoreClass {
 	constructor(){
-		super({page: null});
+		super({initState: {page: null}});
 	}
 
 	update(state, action){
@@ -80,7 +80,7 @@ export default someStore;
 ```
 
 **set**
-Can be use the ```set ({})``` method for a simple way to update the full state of the store.
+Can be use the ```set ()``` method for a simple way to update the full state of the store.
 
 ## StoreController
 ### Usage
@@ -91,7 +91,12 @@ let options = {
     storeList: [
         {
             name: <storeName>,
-            store: <storeClass>
+            store: <storeClass>,
+            options: {
+            	initState: {
+            		page: "home"
+            	}
+            }
         }
     ]
 }
@@ -102,3 +107,6 @@ stores.<storeName>.<do_something>
 ```
 
 if ```store``` field in ```storeList``` will be missing or contains undefined value, Controller will create store from StoreClass.
+
+[__not necessary__] Field ```options``` contains a object of params which will insert in StoreClass constructor.
+```options.initState``` - contains state of redux store on the initialisation.
