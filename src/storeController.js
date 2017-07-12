@@ -1,17 +1,23 @@
-import StoreClass from './storeClass';
+import _ from "lodash";
+import StoreClass from "./storeClass";
 
 class StoreController {
-	constructor(options){
+	constructor(options) {
 		this.storeList = options.storeList;
 		this.initStores();
 	}
 
-	initStores(){
-		for(let n in this.storeList){
-			let store = this.storeList[n].store;
-			store = ('undefined' == typeof store) ? StoreClass : store;
-			this[this.storeList[n].name] = new store;
-		}
+	initStores() {
+		_.forEach(this.storeList, rule => {
+			const store = typeof rule.store === 'undefined' ? StoreClass : rule.store;
+			this[rule.name] = new store(this.validateOptions(rule));
+		})
+	}
+
+	validateOptions(rule){
+		if(typeof rule.options === 'undefined') rule.options = {};
+		if(typeof rule.options.initState === 'undefined') rule.options.initState = {};
+		return rule.options;
 	}
 }
 
