@@ -1,0 +1,37 @@
+{
+  "root": true,
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "15.6.1"
+    }
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "indent": [2, "tab", {"SwitchCase": 1}],
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "linebreak-style": 0,
+    "radix": [2, "as-needed"],
+    "class-methods-use-this": ["error", { "exceptMethods": ["update"] }],
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+  }
+}

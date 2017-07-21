@@ -6,7 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "babel --presets es2015 -d lib/ src/",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run lint-staged && npm run compile",
+    "lint-staged": "lint-staged"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.js": "eslint"
   },
   "repository": {
     "type": "git",
@@ -27,6 +32,14 @@
     "redux": "^3.6.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-react": "^7.1.0",
+    "lint-staged": "^4.0.2",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.5.2"
   }
 }
