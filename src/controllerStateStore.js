@@ -1,41 +1,64 @@
-import _ from "lodash";
+import map from "lodash/map";
+import assign from "lodash/assign";
+import merge from "lodash/merge";
+import isArray from "lodash/isArray";
+import cloneDeep from "lodash/cloneDeep";
+import size from "lodash/size";
+import has from "lodash/has";
+import keys from "lodash/keys";
+import SubscriptionMapController from "./subscriptionMapController";
 
-class ComposnentStateStore {
+class ControllerStateStore {
 	constructor(options) {
 		this.stores = options.stores;
-		this.storesRules = options.storesRules;
-		this.method = ComposnentStateStore.checkReunionMethod({ method: options.reunionMethod });
+		this.storesRules =
+			typeof options.storesRules === "undefined"
+				? this.checkStoresRules()
+				: options.storesRules;
+		this.method = SubscriptionMapController.checkReunionMethod({
+			method: options.reunionMethod,
+			stores: this.stores,
+			childName: this.constructor.name
+		});
 
 		this.state = {};
+		this.initialized = false;
 		this.unsubscribe = [];
 
 		this.initState();
 	}
 
-	static checkReunionMethod(options) {
-		if (typeof options.method !== "string") return "assign";
-		const valid = ["assign", "merge", "hard"];
-		return _.includes(valid, options.method) ? options.method : "assign";
+	checkStoresRules() {
+		return SubscriptionMapController.checkStoresRules({
+			stores: this.stores,
+			childName: this.constructor.name
+		});
 	}
 
 	initState() {
 		const data = {};
 
-		_.map(this.storesRules, rules => {
+		map(this.storesRules, rules => {
 			if (
 				typeof rules.store === "undefined" ||
 				typeof this.stores[rules.store] === "undefined"
 			)
-				global.console.log(
-					`You are tried subscribe on not exist store: ${rules.store} \r\n Check options for super() call in class: '${this
+				global.console.warn(
+					`You are tried subscribe on not exist store: ${rules.store}. Check options for super() call in class: '${this
 						.constructor.name}'`
 				);
 			else {
 				this.subscribe({ store: rules.store });
 
-				_.map(rules.fields, field => {
-					data[field] = this.stores[rules.store].getStore[field];
-				});
+				if (typeof rules.fields === "undefined") {
+					map(this.stores[rules.store].getStore, (value, field) => {
+						data[field] = value;
+					});
+				} else {
+					map(rules.fields, field => {
+						data[field] = this.stores[rules.store].getStore[field];
+					});
+				}
 			}
 		});
 
@@ -46,72 +69,81 @@ class ComposnentStateStore {
 		switch (this.method) {
 			case "assign":
 			default:
-				this.state = _.assign(newState);
+				this.state = assign(this.state, newState);
 				break;
 			case "merge":
-				this.state = _.merge(newState);
+				this.state = merge(this.state, newState);
 				break;
 			case "hard":
-				this.state = _.clone(newState);
+				this.state = cloneDeep(newState);
 				break;
 		}
 
-		this.stateDidUpdate();
+		if (this.initialized === false) {
+			this.initialized = true;
+			this.stateDidInit();
+		} else this.stateDidUpdate();
 	}
 
 	subscribe(options) {
-		this.unsubscribe[options.store] = this.stores[options.store].subscribe(() => {
+		this.unsubscribe[options.store] = this.stores[
+			options.store
+		].subscribe(() => {
 			this.getNewState(options);
 		});
 	}
 
 	getNewState(options) {
-		const rule = this.storesRules.filter(el => el.store === options.store)[0];
-		const f =
-			_.isArray(rule.fields) === false || _.size(rule.fields) < 1
-				? "all"
-				: rule.fields;
 		const ns = this.stores[options.store].getStore;
+		const rule = this.storesRules.filter(el => el.store === options.store)[0];
+
+		const f =
+			isArray(rule.fields) === false || size(rule.fields) < 1
+				? keys(ns)
+				: rule.fields;
 
 		this.mergeFields({ fields: f, newState: ns });
 	}
 
 	mergeFields(options) {
-		if (options.fields === "all") this.setState(options.newState);
-		else this.mergeRuleFields(options);
-	}
-
-	mergeRuleFields(options) {
 		const data = {};
 
-		_.map(options.fields, field => {
-			if (_.has(options.newState, field)) {
-				if (
-					typeof options.newState[field] !== "undefined" &&
-					options.newState[field] !== this.state[options.fields]
-				) {
+		map(options.fields, field => {
+			if (has(options.newState, field)) {
+				if (options.newState[field] !== this.state[field]) {
 					data[field] = options.newState[field];
 				}
+
+				if (typeof this.state[field] === "object") {
+					data[field] = cloneDeep(options.newState[field]);
+				}
+			} else {
+				data[field] = undefined;
 			}
 		});
 
-		this.setState(data);
+		if (size(data) > 0) this.setState(data);
+	}
+
+	// eslint-disable-next-line
+	stateDidInit() {
+		return "State did init.";
 	}
 
 	// eslint-disable-next-line
 	stateDidUpdate() {
-
+		return "State did update";
 	}
 
 	unmount(options = null) {
-		const list = _.isArray(options) ? options : this.storesRules;
-		_.map(list, rules => {
+		const list = isArray(options) ? options : this.storesRules;
+		map(list, rules => {
 			if (
 				typeof rules.store === "undefined" ||
-				typeof this.storesRules[rules.store] === "undefined"
+				typeof this.unsubscribe[rules.store] === "undefined"
 			)
-				global.console.log(
-					`You are tried unsubscribe store which was not subscribed: ${rules.store} \r\n Check super.unmount() call in class: '${this
+				global.console.warn(
+					`You are tried unsubscribe store which was not subscribed: ${rules.store}. Check super.unmount() call in class: '${this
 						.constructor.name}'`
 				);
 			else this.unsubscribe[rules.store]();
@@ -119,4 +151,4 @@ class ComposnentStateStore {
 	}
 }
 
-export default ComposnentStateStore;
+export default ControllerStateStore;

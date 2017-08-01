@@ -1,0 +1,11 @@
+{
+	"ExampleController": {
+		"storesRules": [
+			{
+				"store": "testStore",
+				"fields": ["number", "object"]
+			}
+		],
+		"reunionMethod": "assign"
+	}
+}

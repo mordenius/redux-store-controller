@@ -1,14 +1,15 @@
-import _ from "lodash";
+import forEach from "lodash/forEach";
 import StoreClass from "./storeClass";
 
 class StoreController {
 	constructor(options) {
 		this.storeList = options.storeList;
+		this.subscriptionMap = options.subscriptionMap;
 		this.initStores();
 	}
 
 	initStores() {
-		_.forEach(this.storeList, rule => {
+		forEach(this.storeList, rule => {
 			const Store = typeof rule.store === "undefined" ? StoreClass : rule.store;
 			this[rule.name] = new Store(StoreController.validateOptions(rule));
 		});
