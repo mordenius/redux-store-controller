@@ -9,15 +9,15 @@ class StoreController {
 
 	initStores() {
 		_.forEach(this.storeList, rule => {
-			const store = typeof rule.store === 'undefined' ? StoreClass : rule.store;
-			this[rule.name] = new store(this.validateOptions(rule));
-		})
+			const Store = typeof rule.store === "undefined" ? StoreClass : rule.store;
+			this[rule.name] = new Store(StoreController.validateOptions(rule));
+		});
 	}
 
-	validateOptions(rule){
-		if(typeof rule.options === 'undefined') rule.options = {};
-		if(typeof rule.options.initState === 'undefined') rule.options.initState = {};
-		return rule.options;
+	static validateOptions(rule) {
+		const options = typeof rule.options === "undefined" ? {} : rule.options;
+		if (typeof options.initState === "undefined") options.initState = {};
+		return options;
 	}
 }
 

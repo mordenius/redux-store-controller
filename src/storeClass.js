@@ -1,8 +1,10 @@
 import { createStore } from "redux";
+import _ from "lodash";
 
 class StoreClass {
 	constructor(options) {
 		this._store = createStore(this.update.bind(this), options.initState);
+		this.initState = options.initState;
 	}
 
 	get getStore() {
@@ -12,25 +14,58 @@ class StoreClass {
 	update(state, action) {
 		switch (action.type) {
 			case "UPDATE":
-				state = action.value;
-				break;
+				return action.value;
+			case "ASSIGN":
+				return StoreClass.assignation(state, action.value);
+			case "MERGE":
+				return StoreClass.merging(state, action.value);
+			case "RESET":
+				return action.value;
 			default:
 				return state;
 		}
-
-		return state;
 	}
 
-	set(value) {
-		this._store.dispatch({ type: "UPDATE", value: value });
+	static assignation(state, action) {
+		return _.assign(state, action);
+	}
+
+	static merging(state, action) {
+		return _.merge(state, action);
+	}
+
+	set(newState) {
+		this._store.dispatch({ type: "UPDATE", value: newState });
+	}
+
+	assign(newState) {
+		if (typeof this.getStore !== typeof newState) {
+			global.console.warn(
+				`You are tried assign diffrent type : ${typeof this
+					.getStore} with ${typeof newState} \r\n Check options for assign() call in class: '${this
+					.constructor.name}'`
+			);
+		}
+		this._store.dispatch({ type: "ASSIGN", value: newState });
+	}
+
+	merge(newState) {
+		if (typeof this.getStore !== typeof newState) {
+			global.console.warn(
+				`You are tried merge diffrent type : ${typeof this
+					.getStore} with ${typeof newState} \r\n Check options for assign() call in class: '${this
+					.constructor.name}'`
+			);
+		}
+		this._store.dispatch({ type: "MERGE", value: newState });
 	}
 
 	reset() {
-		this._store.dispatch({ type: "RESET" });
+		this._store.dispatch({ type: "RESET", value: this.initState });
 	}
 
 	subscribe(func) {
-		let unsub = this._store.subscribe(func);
+		const unsub = this._store.subscribe(func);
 
 		return function unsubscribe() {
 			unsub();

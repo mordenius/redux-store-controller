@@ -1,5 +1,6 @@
 # redux-store-controller 
 
+<span style="color:red">Some point of current documentation are deprecated for v1.1.0</span>
 ---
 [![npm version](https://img.shields.io/npm/v/redux-store-controller.svg)](https://www.npmjs.com/package/redux-store-controller)
 [![node](https://img.shields.io/node/v/gh-badges.svg)](https://github.com/mordenius/redux-store-controller)
