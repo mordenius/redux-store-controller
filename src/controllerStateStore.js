@@ -6,7 +6,6 @@ import cloneDeep from "lodash/cloneDeep";
 import size from "lodash/size";
 import has from "lodash/has";
 import keys from "lodash/keys";
-import SubscriptionMapController from "./subscriptionMapController";
 
 class ControllerStateStore {
 	constructor(options) {
@@ -15,11 +14,7 @@ class ControllerStateStore {
 			typeof options.storesRules === "undefined"
 				? this.checkStoresRules()
 				: options.storesRules;
-		this.method = SubscriptionMapController.checkReunionMethod({
-			method: options.reunionMethod,
-			stores: this.stores,
-			childName: this.constructor.name
-		});
+		this.method = this.checkReunionMethod(options.reunionMethod);
 
 		this.state = {};
 		this.initialized = false;
@@ -29,10 +24,18 @@ class ControllerStateStore {
 	}
 
 	checkStoresRules() {
-		return SubscriptionMapController.checkStoresRules({
-			stores: this.stores,
-			childName: this.constructor.name
+		return this.stores.subscriptionMap.getStoreRules({
+			childName: this.constructor.name,
+			type: "class"
 		});
+	}
+
+	checkReunionMethod(reunionMethod){
+		return this.stores.subscriptionMap.checkReunionMethod({
+			method: reunionMethod,
+			childName: this.constructor.name,
+			type: "component"
+		})
 	}
 
 	initState() {

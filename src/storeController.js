@@ -1,11 +1,12 @@
 import forEach from "lodash/forEach";
 import StoreClass from "./storeClass";
+import SubscriptionMapController from "./subscriptionMapController";
 
 class StoreController {
 	constructor(options) {
 		this.storeList = options.storeList;
-		this.subscriptionMap = options.subscriptionMap;
 		this.initStores();
+		this.subscriptionMap = new SubscriptionMapController({ map: options.subscriptionMap, stores: this });
 	}
 
 	initStores() {

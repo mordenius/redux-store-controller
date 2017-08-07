@@ -1,24 +1,25 @@
 import includes from "lodash/includes";
+import find from "lodash/find";
 
 class SubscriptionMapController {
-	static checkStoresRules(options) {
-		const stores = options.stores;
-		const map = stores.subscriptionMap;
+	constructor(options) {
+		this.map = options.map;
+		this.stores = options.stores;
+	}
 
-		if (typeof map === "undefined") {
-			global.console.warn(`RSC: You have not any subscription map.`);
-			return {};
-		}
+	getStoreRules(options){
+		const findObject = {};
+		findObject[options.type] = options.childName;
 
-		if (typeof map[options.childName] === "undefined") {
+		const rulesData = find(this.map, findObject);
+		if (typeof rulesData === "undefined") {
 			global.console.warn(
 				`RSC: You have not any subscription map for class ${options.childName}`
 			);
 			return {};
 		}
-
 		return SubscriptionMapController.validateRules({
-			rules: map[options.childName],
+			rules: rulesData,
 			childName: options.childName
 		});
 	}
@@ -33,18 +34,23 @@ class SubscriptionMapController {
 		return options.rules.storesRules;
 	}
 
-	static checkReunionMethod(options) {
+	checkReunionMethod(options) {
 		let resultMethod = options.method;
 
 		if (typeof options.method === "undefined") {
-			const stores = options.stores;
-			const map = stores.subscriptionMap;
+			const findObject = {};
+			findObject[options.type] = options.childName;
+
+			const rulesData = find(this.map, findObject);
+			if (typeof rules === "undefined") {
+				return "assign";
+			}
 
 			if (
-				typeof map[options.childName] === "object" &&
-				typeof map[options.childName].reunionMethod === "string"
+				typeof rulesData === "object" &&
+				typeof rulesData.reunionMethod === "string"
 			)
-				resultMethod = map[options.childName].reunionMethod;
+				resultMethod = rulesData.reunionMethod;
 		}
 
 		const valid = ["assign", "merge", "hard"];

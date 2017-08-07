@@ -5,8 +5,8 @@ import cloneDeep from "lodash/cloneDeep";
 
 class StoreClass {
 	constructor(options) {
-		this._store = createStore(this.update.bind(this), options.initState);
 		this.initState = cloneDeep(options.initState);
+		this._store = createStore(this.update.bind(this), options.initState);
 	}
 
 	get getStore() {

@@ -5,20 +5,16 @@ import size from "lodash/size";
 import keys from "lodash/keys";
 import cloneDeep from "lodash/cloneDeep";
 import { Component } from "react";
-import SubscriptionMapController from "./subscriptionMapController";
 
 class ComponentStateStore extends Component {
 	constructor(options) {
 		super(options.props);
+		this.childName = options.name;
 		this.storesRules =
 			typeof options.storesRules === "undefined"
 				? this.checkStoresRules()
 				: options.storesRules;
-		this.method = SubscriptionMapController.checkReunionMethod({
-			method: options.reunionMethod,
-			stores: options.props.stores,
-			childName: this.constructor.name
-		});
+		this.method = this.checkReunionMethod(options.reunionMethod);
 
 		this.state = {};
 		this.unsubscribe = [];
@@ -27,10 +23,18 @@ class ComponentStateStore extends Component {
 	}
 
 	checkStoresRules() {
-		return SubscriptionMapController.checkStoresRules({
-			stores: this.props.stores,
-			childName: this.constructor.name
+		return this.props.stores.subscriptionMap.getStoreRules({
+			childName: this.childName || this.constructor.name,
+			type: "component"
 		});
+	}
+
+	checkReunionMethod(reunionMethod){
+		return this.props.stores.subscriptionMap.checkReunionMethod({
+			method: reunionMethod,
+			childName: this.childName || this.constructor.name,
+			type: "component"
+		})
 	}
 
 	initState() {

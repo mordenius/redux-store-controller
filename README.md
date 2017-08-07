@@ -313,8 +313,9 @@ const stores = new StoreController({ storeList: storeConfig, subscriptionMap: ma
 
 ### Map Structure
 ```javascript
-{
- "ExampleController": {
+[
+ {
+ 	 "class": "ExampleController",
    "storesRules": [
      {
        "store": "testStore",
@@ -323,7 +324,8 @@ const stores = new StoreController({ storeList: storeConfig, subscriptionMap: ma
    ],
    "reunionMethod": "assign"
  },
- "SecondController": {
+  {
+	 "class": "SecondController",
    "storesRules": [
      {
        "store": "testStore",
@@ -332,7 +334,8 @@ const stores = new StoreController({ storeList: storeConfig, subscriptionMap: ma
    ],
    "reunionMethod": "assign"
  },
- "SomeComponent": {
+ {
+ 	 "component": "SomeComponent",
    "storesRules": [
      {
        "store": "testStore",
@@ -341,7 +344,7 @@ const stores = new StoreController({ storeList: storeConfig, subscriptionMap: ma
    ],
    "reunionMethod": "assign"
  }
-}
+]
 ```
 
 ### Example
@@ -361,8 +364,9 @@ const storeConfig = [
   }
 ]
 
-const map = {
- ExampleControlle: {
+const map = [
+ {
+ 	class: "ExampleController",
    storesRules: [
      {
        store: "testStore",
@@ -371,7 +375,7 @@ const map = {
    ],
    reunionMethod: "assign"
  }
-}
+]
 ```
 
 Next, create an instance of the class ```StoreController```:
@@ -404,7 +408,7 @@ class ExampleController extends ControllerStateStore {
 
 class ExampleController extends ControllerStateStore {
   constructor() {
-    super({stores: Stores})
+    super({stores: Stores, "name": "ExampleController"})
 
     console.log(this.state); // { st: "string", qw: "qwerty", zx: 22 }
   }
