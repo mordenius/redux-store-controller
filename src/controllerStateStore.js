@@ -10,6 +10,7 @@ import keys from "lodash/keys";
 class ControllerStateStore {
 	constructor(options) {
 		this.stores = options.stores;
+		this.childName = options.name;
 		this.storesRules =
 			typeof options.storesRules === "undefined"
 				? this.checkStoresRules()
@@ -25,7 +26,7 @@ class ControllerStateStore {
 
 	checkStoresRules() {
 		return this.stores.subscriptionMap.getStoreRules({
-			childName: this.constructor.name,
+			childName: this.childName || this.constructor.name,
 			type: "class"
 		});
 	}
@@ -33,7 +34,7 @@ class ControllerStateStore {
 	checkReunionMethod(reunionMethod){
 		return this.stores.subscriptionMap.checkReunionMethod({
 			method: reunionMethod,
-			childName: this.constructor.name,
+			childName: this.childName || this.constructor.name,
 			type: "component"
 		})
 	}
