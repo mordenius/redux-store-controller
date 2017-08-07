@@ -28,7 +28,7 @@ class ComponentStateStore extends Component {
 
 	checkStoresRules() {
 		return SubscriptionMapController.checkStoresRules({
-			stores: this.stores,
+			stores: this.props.stores,
 			childName: this.constructor.name
 		});
 	}
