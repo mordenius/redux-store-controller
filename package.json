@@ -6,6 +6,7 @@
   "scripts": {
     "test": "babel-node ./test/index",
     "test:react": "npm run compile && browserify test/react -o test/react/bundle.js",
+    "test:controller": "npm run compile && babel-node test/controller",
     "compile": "babel -d lib/ source/",
     "prepublish": "npm run lint-staged && npm run compile",
     "lint-staged": "lint-staged"
@@ -29,10 +30,10 @@
     "babel-core": "^6.26.0",
     "babel-preset-bbt": "0.0.6",
     "browserify": "^15.2.0",
-    "eslint": "^4.15.0",
+    "eslint": "^4.16.0",
     "eslint-config-bbt": "^1.0.1",
     "eslint-config-prettier": "^2.9.0",
-    "lint-staged": "^6.0.0",
+    "lint-staged": "^6.0.1",
     "pre-commit": "^1.2.2",
     "prettier": "^1.10.2",
     "react": "^16.2.0",
