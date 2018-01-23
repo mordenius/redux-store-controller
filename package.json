@@ -20,7 +20,7 @@
     "url": "git+https://github.com/mordenius/redux-store-controller.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mordenius/redux-store-controller/issues"
   },
