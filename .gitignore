@@ -2,3 +2,4 @@
 /lib/*
 /.idea/
 /package-lock.json
+/test/react/bundle.js

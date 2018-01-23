@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "babel-node ./test/index",
+    "test:react": "npm run compile && browserify test/react -o test/react/bundle.js",
     "compile": "babel -d lib/ source/",
     "prepublish": "npm run lint-staged && npm run compile",
     "lint-staged": "lint-staged"
@@ -27,14 +28,20 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-bbt": "0.0.6",
+    "browserify": "^15.2.0",
     "eslint": "^4.15.0",
     "eslint-config-bbt": "^1.0.1",
     "eslint-config-prettier": "^2.9.0",
     "lint-staged": "^6.0.0",
     "pre-commit": "^1.2.2",
-    "prettier": "^1.10.2"
+    "prettier": "^1.10.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "dependencies": {
     "lodash": "^4.17.4"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0"
   }
 }
