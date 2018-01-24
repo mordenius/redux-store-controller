@@ -3,3 +3,6 @@ source/
 test/
 /.idea/
 /package-lock.json
+/.eslintrc
+/.eslintignore
+/.babelrc

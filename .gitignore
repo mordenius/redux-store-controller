@@ -3,3 +3,8 @@
 /.idea/
 /package-lock.json
 /test/react/bundle.js
+/index.js
+/redux-store-controller-2.0.0.tgz
+/controllerStateStore.js
+/storeClass.js
+/componentStateStore.js

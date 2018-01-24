@@ -2,12 +2,12 @@
   "name": "redux-store-controller",
   "version": "2.0.0",
   "description": "Storage for object structure data with subscribing for changes in fields of this data",
-  "main": "lib/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "babel-node ./test/index",
     "test:react": "npm run compile && browserify test/react -o test/react/bundle.js",
     "test:controller": "npm run compile && babel-node test/controller",
-    "compile": "babel -d lib/ source/",
+    "compile": "babel -d ./ source/",
     "prepublish": "npm run lint-staged && npm run compile",
     "lint-staged": "lint-staged"
   },
