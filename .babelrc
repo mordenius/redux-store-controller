@@ -1,8 +1,8 @@
 {
   "presets": [
     ["bbt", {
-      "targets": { "node": true },
-      "minify": true
+      "minify": true,
+      "react": true
     }]
   ]
 }

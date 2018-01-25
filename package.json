@@ -1,6 +1,6 @@
 {
   "name": "redux-store-controller",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Storage for object structure data with subscribing for changes in fields of this data",
   "main": "index.js",
   "scripts": {

@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var _storeClass=require("./storeClass"),_storeClass2=_interopRequireDefault(_storeClass);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}exports.default=new _storeClass2.default;
