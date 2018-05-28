@@ -1,0 +1,17 @@
+/.idea/
+*.iml
+/.vscode/
+
+/node_modules/
+
+/source/
+
+/spec/
+
+npm-debug.json
+package-lock.json
+
+.babelrc
+jest.config.js
+tsconfig.json
+tslint.json
