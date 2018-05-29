@@ -1,5 +1,5 @@
 
-export type NodeData = string | number | boolean | any[];
+export type NodeData = string | number | boolean | any[] | NodeData;
 
 export interface INode extends IEmitter {
 	set(data: NodeData): void;
@@ -13,3 +13,8 @@ export interface IEmitter {
 	emit(data: NodeData, prevData: NodeData): void;
 }
 
+export type ProviderData = { [key: string ]: NodeData };
+
+export interface IProvider {
+
+}
