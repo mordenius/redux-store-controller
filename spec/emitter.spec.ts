@@ -10,7 +10,10 @@ describe("Emitter case", () => {
 
 	it("Single listener", (next: () => void) => {
 		const control: string = "control_string";
-		const listener: EmitterListener = (data: NodeData, prevData: NodeData) => {
+		const listener: EmitterListener = (
+			data: NodeData,
+			prevData: NodeData
+		): void => {
 			expect(data).toEqual(control);
 			expect(prevData).toEqual("");
 			next();
@@ -23,9 +26,9 @@ describe("Emitter case", () => {
 	it("Multiple listeners", (next: () => void) => {
 		const control: boolean = true;
 
-		const listener: EmitterListener = (data: NodeData) => {
+		const listener: EmitterListener = (data: NodeData): void => {
 			expect(data).toBeTruthy();
-			if (2 !== listeners.length) return;
+			if (listeners.length !== 2) return;
 
 			expect(listeners.length).toEqual(emitter.listenerCount);
 			next();
@@ -33,8 +36,8 @@ describe("Emitter case", () => {
 
 		const listeners: EmitterListener[] = [listener, listener];
 
-		listeners.forEach((listener: EmitterListener) => {
-			emitter.subscribe(listener);
+		listeners.forEach((listen: EmitterListener) => {
+			emitter.subscribe(listen);
 		});
 		emitter.emit(control, false);
 	});
@@ -43,7 +46,10 @@ describe("Emitter case", () => {
 		const control: string = "control_string";
 		let unsubscribe: Function;
 
-		const listener: EmitterListener = (data: NodeData, prevData: NodeData) => {
+		const listener: EmitterListener = (
+			data: NodeData,
+			prevData: NodeData
+		): void => {
 			expect(data).toEqual(control);
 			expect(prevData).toEqual("");
 			expect(emitter.listenerCount).toEqual(1);
