@@ -3,9 +3,7 @@
 /.vscode/
 
 /node_modules/
-
 /source/
-
 /spec/
 
 npm-debug.json

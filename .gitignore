@@ -4,6 +4,7 @@
 
 /node_modules/
 /docs/
+/lib/
 
 npm-debug.json
 package-lock.json

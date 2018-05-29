@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "docs": "typedoc --out ./docs ./source/ts",
-    "compile": "tsc --pretty --outDir build",
+    "compile": "tsc --pretty --outDir lib",
     "babel:node": "babel-node --extensions \".js\",\".ts\" ./source/ts/index.ts",
     "lint": "tslint -c tslint.json --project ."
   },
