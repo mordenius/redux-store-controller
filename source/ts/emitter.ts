@@ -9,7 +9,7 @@ export class Emitter implements IEmitter {
 		return this.cnt;
 	}
 
-	public subscribe(listener: EmitterListener): void {
+	public subscribe(listener: EmitterListener): Function {
 		const index: number = this.index;
 		this.listeners.set(index, listener);
 		this.cnt += 1;
@@ -20,7 +20,7 @@ export class Emitter implements IEmitter {
 
 	public emit(data: NodeData, prevData: NodeData): void {
 		this.listeners.forEach((value: EmitterListener): void => {
-			value.call(data, prevData);
+			value.call(null, data, prevData);
 		});
 	}
 
