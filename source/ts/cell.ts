@@ -2,17 +2,17 @@ import { INode, NodeData } from "../../index";
 import { Emitter } from "./emitter";
 
 /**
- * Node of data object structure
+ * Cell with data of Node object structure
  */
-export class Node extends Emitter implements INode {
+export class Cell extends Emitter implements INode {
 	/**
-	 * Value of Node data
+	 * Value of Cell data
 	 */
 	private data: NodeData;
 
 	/**
 	 * 
-	 * @param data Initialize data of Node
+	 * @param data Initialize data of Cell
 	 */
 	constructor(data: NodeData) {
 		super();
@@ -20,7 +20,7 @@ export class Node extends Emitter implements INode {
 	}
 
 	/**
-	 * Change value of Node data
+	 * Change value of Cell data
 	 * @param data New data value
 	 */
 	public set(data: NodeData): void {
@@ -30,7 +30,7 @@ export class Node extends Emitter implements INode {
 	}
 
 	/**
-	 * Get value of Node data
+	 * Get value of Cell data
 	 */
 	public get(): NodeData {
 		return this.data;

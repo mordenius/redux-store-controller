@@ -1,16 +1,16 @@
-import { Node } from "./../source/ts/node";
+import { Cell } from "./../source/ts/cell";
 import { EmitterListener, NodeData } from "./../index";
 
-describe("Node case", () => {
-	it("Simple node", () => {
+describe("Cell case", () => {
+	it("Simple cell", () => {
 		const firstData: string = "init_data";
 		const nextData: string = "new_data";
 
-		const node = new Node(firstData);
-		expect(node.get()).toEqual(firstData);
+		const cell = new Cell(firstData);
+		expect(cell.get()).toEqual(firstData);
 
-		node.set(nextData);
-		expect(node.get()).toEqual(nextData);
+		cell.set(nextData);
+		expect(cell.get()).toEqual(nextData);
 	});
 
 	it("Subscription", (next: () => void) => {
@@ -26,12 +26,12 @@ describe("Node case", () => {
 			next();
 		};
 
-		const node = new Node(firstData);
-		node.subscribe(listener);
+		const cell = new Cell(firstData);
+		cell.subscribe(listener);
 
-		expect(node.listenerCount).toEqual(1);
+		expect(cell.listenerCount).toEqual(1);
 
-		node.set(nextData);
-		expect(node.get()).toEqual(nextData);
+		cell.set(nextData);
+		expect(cell.get()).toEqual(nextData);
 	});
 });

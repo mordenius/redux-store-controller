@@ -1,4 +1,4 @@
-import { Node } from "./node";
+import { Cell } from "./cell";
 import { IProvider, ProviderData, INode, NodeData } from "../../index";
 
 export class Provider implements IProvider {
@@ -18,12 +18,12 @@ export class Provider implements IProvider {
 
 		for (const key in data) {
 			if (typeof data[key] === "object") {
-				const item = this.init(data[key]);
-				origin[key] = item[0];
-				tree[key] = new Node(item[1]);
+				// const item = this.init(data[key]);
+				// origin[key] = item[0];
+				// tree[key] = new Cell(item[1]);
 			} else {
 				origin[key] = data[key];
-				tree[key] = new Node(data[key]);
+				tree[key] = new Cell(data[key]);
 			}
 		}
 
