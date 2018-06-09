@@ -1,4 +1,11 @@
 
+export type CellData = string | number | boolean | any[] | Function;
+
+export interface ICell {
+	set(data: CellData): void;
+	get(): CellData;
+}
+
 export type NodeData = string | number | boolean | any[] | NodeData;
 
 export interface INode extends IEmitter {
