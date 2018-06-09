@@ -1,6 +1,6 @@
 import { Provider } from "./../source/ts/index";
 
-describe("Provider case", (): void => {
+xdescribe("Provider case", (): void => {
 	it("Init Provider", () => {
 		const provider = new Provider({
 			apple: "red",

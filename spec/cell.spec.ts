@@ -1,37 +1,52 @@
 import { Cell } from "./../source/ts/cell";
-import { EmitterListener, NodeData } from "./../index";
+import { EmitterListener, NodeData, CellData } from "./../index";
+
+const firstData: string = "init_data";
+const nextData: string = "new_data";
+
+const parentListenerDummy = (): void => {
+	/* - */
+};
+
+const listenerHelper = (next: () => void): EmitterListener => (
+	data: NodeData | CellData,
+	prev: NodeData | CellData
+): void => {
+	expect(data).toEqual(nextData);
+	expect(prev).toEqual(firstData);
+	next();
+};
 
 describe("Cell case", () => {
 	it("Simple cell", () => {
-		const firstData: string = "init_data";
-		const nextData: string = "new_data";
-
-		const cell = new Cell(firstData);
+		const cell = new Cell(firstData, parentListenerDummy);
 		expect(cell.get()).toEqual(firstData);
 
 		cell.set(nextData);
 		expect(cell.get()).toEqual(nextData);
 	});
 
-	it("Subscription", (next: () => void) => {
-		const firstData: string = "init_data";
-		const nextData: string = "new_data";
+	describe("Subscription", () => {
+		it("Parent subscription", (next: () => void) => {
+			const listener = listenerHelper(next);
+			const cell = new Cell(firstData, listener);
 
-		const listener: EmitterListener = (
-			data: NodeData,
-			prev: NodeData
-		): void => {
-			expect(data).toEqual(nextData);
-			expect(prev).toEqual(firstData);
-			next();
-		};
+			expect(cell.listenerCount).toEqual(1);
 
-		const cell = new Cell(firstData);
-		cell.subscribe(listener);
+			cell.set(nextData);
+			expect(cell.get()).toEqual(nextData);
+		});
 
-		expect(cell.listenerCount).toEqual(1);
+		it("Multiple subscription", (next: () => void) => {
+			const listener = listenerHelper(next);
 
-		cell.set(nextData);
-		expect(cell.get()).toEqual(nextData);
+			const cell = new Cell(firstData, parentListenerDummy);
+			cell.subscribe(listener);
+
+			expect(cell.listenerCount).toEqual(2);
+
+			cell.set(nextData);
+			expect(cell.get()).toEqual(nextData);
+		});
 	});
 });
