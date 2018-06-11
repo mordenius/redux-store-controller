@@ -16,7 +16,7 @@ export class Cell extends Emitter implements ICell {
 	 */
 	constructor(data: CellData, parentListener: EmitterListener) {
 		super();
-		this.data = data;
+		this.data = data instanceof Array ? data.slice() : data;
 		this.subscribe(parentListener);
 	}
 
@@ -25,15 +25,19 @@ export class Cell extends Emitter implements ICell {
 	 * @param data New data value
 	 */
 	public set(data: CellData): void {
-		const prev = this.data;
-		this.data = data;
-		this.emit(this.data, prev);
+		const prev = this.getData();
+		this.data = data instanceof Array ? data.slice() : data;
+		this.emit(this.getData(), prev);
 	}
 
 	/**
 	 * Get value of Cell data
 	 */
 	public get(): CellData {
-		return this.data;
+		return this.getData();
+	}
+
+	private getData(): CellData {
+		return this.data instanceof Array ? this.data.slice() : this.data;
 	}
 }
