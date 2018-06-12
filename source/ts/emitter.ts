@@ -42,7 +42,7 @@ export class Emitter implements IEmitter {
 	 * @param data Current value
 	 * @param prevData Previously value
 	 */
-	public emit(data: NodeData | CellData, prevData: NodeData | CellData): void {
+	public emit(data: NodeData | CellData, prevData?: NodeData | CellData): void {
 		this.listeners.forEach((value: EmitterListener): void => {
 			value.call(null, data, prevData);
 		});
