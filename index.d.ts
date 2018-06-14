@@ -1,5 +1,5 @@
 
-export type CellData = string | number | boolean | any[] | Function;
+export type CellData = string | number | boolean | any[] | Function | undefined;
 
 export interface ICell extends IEmitter {
 	set(data: CellData): void;
