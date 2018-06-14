@@ -1,14 +1,14 @@
 {
 	"presets": [
 		"@babel/preset-typescript",
-		[
-			"touch jest.config.js",
+		[ "@babel/preset-env",
 			{
 				"targets": {
 					"browsers": ["last 2 versions", "safari >= 7"]
 				}
 			}
-		]
+		],
+		"minify"
 	],
 	"plugins": ["@babel/plugin-proposal-class-properties"]
 }
