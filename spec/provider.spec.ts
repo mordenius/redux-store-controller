@@ -1,16 +1,18 @@
 import { Provider } from "./../source/ts/index";
 
-xdescribe("Provider case", (): void => {
-	it("Init Provider", () => {
-		const provider = new Provider({
-			apple: "red",
-			pinapple: true,
-			color: 24,
-			inner: {
-				level: "inner level"
-			}
-		});
+const _DATA = {
+	bol: true,
+	str: "string",
+	num: 23,
+	inner: {
+		bol: false,
+		num: 42
+	}
+};
 
-		console.log(provider.tree.inner.data.level.data);
+describe("Provider case", (): void => {
+	it("Init Provider", (): void => {
+		const provider = new Provider(_DATA);
+		expect(provider.getChild(["inner", "num"]).get()).toEqual(_DATA.inner.num);
 	});
 });
