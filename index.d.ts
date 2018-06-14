@@ -29,8 +29,8 @@ export interface IEmitter {
 	emit(data: NodeData, prevData?: NodeData): void;
 }
 
-export type ProviderData = { [key: string ]: NodeData };
+export type ProviderData = NodeData;
 
-export interface IProvider {
+export interface IProvider extends INode {
 	
 }

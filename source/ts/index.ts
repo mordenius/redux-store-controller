@@ -1,32 +1,47 @@
-import { Cell } from "./cell";
-import { IProvider, ProviderData, INode, NodeData } from "../../index";
+import {
+	IProvider,
+	ProviderData,
+	CellData,
+	NodeData,
+	EmitterListener
+} from "../../index";
+import { Node } from "./node";
 
-export class Provider implements IProvider {
+const defaultListener = (): void => {
+	/* */
+};
 
-	public readonly origin: ProviderData = {};
-	public readonly tree: ProviderData = {};
+export class Provider extends Node implements IProvider {
+	/**
+	 * 
+	 */
+	public readonly origin: NodeData = {};
 
-	constructor(data: ProviderData) {
-		const result = this.init(data);
-		this.origin = result[0];
-		this.tree = result[1];
+	/**
+	 * 
+	 * @param data 
+	 * @param listener 
+	 */
+	constructor(data: ProviderData, listener?: EmitterListener) {
+		super(data, listener ? listener : defaultListener);
+		this.origin = this.init(data);
 	}
 
-	private init(data: ProviderData): [ProviderData, ProviderData] {
-		const origin: ProviderData = {};
-		const tree: ProviderData = {};
+	/**
+	 * 
+	 * @param data 
+	 */
+	private init(data: NodeData): NodeData {
+		const origin: NodeData = {};
 
 		for (const key in data) {
-			if (typeof data[key] === "object") {
-				// const item = this.init(data[key]);
-				// origin[key] = item[0];
-				// tree[key] = new Cell(item[1]);
-			} else {
-				origin[key] = data[key];
-				tree[key] = new Cell(data[key]);
-			}
+			const value: NodeData | CellData = data[key];
+			origin[key] =
+				typeof value === "object" && !(value instanceof Array)
+					? this.init(value)
+					: value;
 		}
 
-		return [origin, tree];
+		return origin;
 	}
 }
