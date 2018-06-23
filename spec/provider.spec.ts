@@ -11,8 +11,15 @@ const _DATA = {
 };
 
 describe("Provider case", (): void => {
+	const provider = new Provider(_DATA);
+
 	it("Init Provider", (): void => {
-		const provider = new Provider(_DATA);
 		expect(provider.getChild(["inner", "num"]).get()).toEqual(_DATA.inner.num);
+	});
+
+	it("First level node", (): void => {
+		const innerNode = provider.getChild(["inner"]);
+		const innerData = innerNode.get();
+		expect(innerData.num).toEqual(_DATA.inner.num);
 	});
 });
