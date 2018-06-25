@@ -10,6 +10,9 @@ export class Cell extends Emitter implements ICell {
 	 */
 	private data: CellData;
 
+	private readonly parentListener: EmitterListener;
+	private parentUnsubscribe: () => void;
+
 	/**
 	 *
 	 * @param data Initialize data of Cell
@@ -17,17 +20,20 @@ export class Cell extends Emitter implements ICell {
 	constructor(data: CellData, parentListener: EmitterListener) {
 		super();
 		this.data = data instanceof Array ? data.slice() : data;
-		this.subscribe(parentListener);
+		this.parentListener = parentListener;
+		this.parentUnsubscribe = this.subscribe(parentListener);
 	}
 
 	/**
 	 * Change value of Cell data
 	 * @param data New data value
 	 */
-	public set(data: CellData): void {
+	public set(data: CellData, parent: boolean = false): void {
+		if (parent) this.parentUnsubscribe();
 		const prev = this.getData();
 		this.data = data instanceof Array ? data.slice() : data;
 		this.emit(this.getData(), prev);
+		if (parent) this.parentUnsubscribe = this.subscribe(this.parentListener);
 	}
 
 	/**

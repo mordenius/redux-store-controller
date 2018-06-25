@@ -26,9 +26,14 @@ export class Node extends Emitter implements INode {
 	 * @param data
 	 * @param parentListener
 	 */
+
+	private readonly parentListener: EmitterListener;
+	private parentUnsubscribe: () => void;
+
 	constructor(data: NodeData, parentListener: EmitterListener) {
 		super();
-		this.subscribe(parentListener);
+		this.parentListener = parentListener;
+		this.parentUnsubscribe = this.subscribe(parentListener);
 		this.create(data);
 	}
 
@@ -36,10 +41,12 @@ export class Node extends Emitter implements INode {
 	 *
 	 * @param data
 	 */
-	public set(data: NodeData): void {
+	public set(data: NodeData, parent: boolean = false): void {
+		if (parent) this.parentUnsubscribe();
 		const prev = this.data; // Clone here !!!!
 		this.create(data);
 		this.emit(this.data, prev);
+		if (parent) this.parentUnsubscribe = this.subscribe(this.parentListener);
 	}
 
 	/**
@@ -73,8 +80,8 @@ export class Node extends Emitter implements INode {
 				if (typeof value === "object" && !(value instanceof Array))
 					this.branch.addNode(key, value, this.getListener(key));
 				else this.branch.addCell(key, value, this.getListener(key));
-			else if (child instanceof Cell) child.set(value as CellData);
-			else if (child instanceof Node) child.set(value as NodeData);
+			else if (child instanceof Cell) child.set(value as CellData, true);
+			else if (child instanceof Node) child.set(value as NodeData, true);
 		}
 
 		this.removeRudiments(data);
