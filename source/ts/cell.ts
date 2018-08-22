@@ -5,6 +5,7 @@ import { Emitter } from "./emitter";
  * Cell with data of Node object structure
  */
 export class Cell extends Emitter implements ICell {
+	public readonly name: string;
 	/**
 	 * Value of Cell data
 	 */
@@ -17,8 +18,9 @@ export class Cell extends Emitter implements ICell {
 	 *
 	 * @param data Initialize data of Cell
 	 */
-	constructor(data: CellData, parentListener: EmitterListener) {
+	constructor(name: string, data: CellData, parentListener: EmitterListener) {
 		super();
+		this.name = name;
 		this.data = data instanceof Array ? data.slice() : data;
 		this.parentListener = parentListener;
 		this.parentUnsubscribe = this.subscribe(parentListener);

@@ -56,7 +56,7 @@ export class Branch implements IBranch {
 	 * @param listener
 	 */
 	public addCell(key: string, data: CellData, listener: EmitterListener): void {
-		this.cells.set(key, new Cell(data, listener));
+		this.cells.set(key, new Cell(key, data, listener));
 	}
 
 	/**

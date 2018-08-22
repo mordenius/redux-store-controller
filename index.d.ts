@@ -2,6 +2,7 @@
 export type CellData = string | number | boolean | any[] | Function | undefined;
 
 export interface ICell extends IEmitter {
+	name: string;
 	set(data: CellData): void;
 	get(): CellData;
 }
@@ -25,7 +26,7 @@ export type EmitterListener = (data: NodeData, previoslyData?: NodeData) => void
 
 export interface IEmitter {
 	listenerCount: number;
-	subscribe(listener: EmitterListener): void;
+	subscribe(listener: EmitterListener): () => void;
 	emit(data: NodeData, prevData?: NodeData): void;
 }
 
