@@ -77,7 +77,7 @@ export class Node extends Emitter implements INode {
 			const child = this.getChild(key);
 
 			if (child === undefined)
-				if (typeof value === "object" && !(value instanceof Array))
+				if (typeof value === "object" && !(value instanceof Array) && !(value === null))
 					this.branch.addNode(key, value, this.getListener(key));
 				else this.branch.addCell(key, value, this.getListener(key));
 			else if (child instanceof Cell) child.set(value as CellData, true);

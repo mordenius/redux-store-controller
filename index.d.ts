@@ -1,5 +1,5 @@
 declare type EmitterListener = (data: NodeData, previoslyData?: NodeData) => void;
-declare type CellData = string | number | boolean | any[] | Function | undefined;
+declare type CellData = string | number | boolean | any[] | Function | undefined | null;
 declare type NodeData = { [key: string]: CellData | NodeData };
 declare type ProviderData = NodeData;
 
