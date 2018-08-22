@@ -1,4 +1,5 @@
 import { Provider } from "./../source/ts/index";
+import { Cell } from "../source/ts/cell";
 
 const _DATA = {
 	bol: true,
@@ -6,7 +7,8 @@ const _DATA = {
 	num: 23,
 	inner: {
 		bol: false,
-		num: 42
+		num: 42,
+		nu: null
 	}
 };
 
@@ -21,5 +23,12 @@ describe("Provider case", (): void => {
 		const innerNode = provider.getChild(["inner"]);
 		const innerData = innerNode.get();
 		expect(innerData.num).toEqual(_DATA.inner.num);
+	});
+
+	it("Cell with null", (): void => {
+		const nuNode = provider.getChild(["inner", "nu"]) as Cell;
+		expect(nuNode.get()).toBeNull();
+		nuNode.set("not Null");
+		expect(nuNode.get()).toEqual("not Null");
 	});
 });
