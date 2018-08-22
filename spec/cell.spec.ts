@@ -19,7 +19,7 @@ const listenerHelper = (next: () => void): EmitterListener => (
 
 describe("Cell case", () => {
 	it("Simple cell", () => {
-		const cell = new Cell(firstData, parentListenerDummy);
+		const cell = new Cell("name", firstData, parentListenerDummy);
 		expect(cell.get()).toEqual(firstData);
 
 		cell.set(nextData);
@@ -29,7 +29,7 @@ describe("Cell case", () => {
 	describe("Subscription", () => {
 		it("Parent subscription", (next: () => void) => {
 			const listener = listenerHelper(next);
-			const cell = new Cell(firstData, listener);
+			const cell = new Cell("name", firstData, listener);
 
 			expect(cell.listenerCount).toEqual(1);
 
@@ -40,7 +40,7 @@ describe("Cell case", () => {
 		it("Multiple subscription", (next: () => void) => {
 			const listener = listenerHelper(next);
 
-			const cell = new Cell(firstData, parentListenerDummy);
+			const cell = new Cell("name", firstData, parentListenerDummy);
 			cell.subscribe(listener);
 
 			expect(cell.listenerCount).toEqual(2);
