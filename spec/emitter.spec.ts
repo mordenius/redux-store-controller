@@ -1,18 +1,18 @@
-import { Emitter } from "./../source/ts/emitter";
-import { EmitterListener, NodeData } from "./../index";
+import { Emitter } from "./../lib/emitter";
+import { EmitterListener } from "./../lib/interfaces";
 
 describe("Emitter case", () => {
-	let emitter: Emitter;
+	let emitter: Emitter<unknown>;
 
 	beforeEach(() => {
-		emitter = new Emitter();
+		emitter = new Emitter<unknown>();
 	});
 
 	it("Single listener", (next: () => void) => {
 		const control: string = "control_string";
-		const listener: EmitterListener = (
-			data: NodeData,
-			prevData: NodeData
+		const listener: EmitterListener<string> = (
+			data: string,
+			prevData: string
 		): void => {
 			expect(data).toEqual(control);
 			expect(prevData).toEqual("");
@@ -26,7 +26,7 @@ describe("Emitter case", () => {
 	it("Multiple listeners", (next: () => void) => {
 		const control: boolean = true;
 
-		const listener: EmitterListener = (data: NodeData): void => {
+		const listener: EmitterListener<boolean> = (data: boolean): void => {
 			expect(data).toBeTruthy();
 			if (listeners.length !== 2) return;
 
@@ -34,9 +34,9 @@ describe("Emitter case", () => {
 			next();
 		};
 
-		const listeners: EmitterListener[] = [listener, listener];
+		const listeners: EmitterListener<boolean>[] = [listener, listener];
 
-		listeners.forEach((listen: EmitterListener) => {
+		listeners.forEach((listen: EmitterListener<boolean>) => {
 			emitter.subscribe(listen);
 		});
 		emitter.emit(control, false);
@@ -46,9 +46,9 @@ describe("Emitter case", () => {
 		const control: string = "control_string";
 		let unsubscribe: Function;
 
-		const listener: EmitterListener = (
-			data: NodeData,
-			prevData: NodeData
+		const listener: EmitterListener<string> = (
+			data: string,
+			prevData: string
 		): void => {
 			expect(data).toEqual(control);
 			expect(prevData).toEqual("");

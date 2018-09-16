@@ -1,6 +1,5 @@
-import { ControllerClass } from "./../source/ts/controller";
-import { Cell } from "./../source/ts/cell";
-import { NodeData } from "./../index";
+import { ControllerClass } from "./../lib/controller";
+import { Cell } from "./../lib/cell";
 
 const _KEY = "key";
 const _VALUE = "value";
@@ -8,17 +7,17 @@ const _DUMMY = (): void => {
 	/* ... */
 };
 
-const model = new Cell(_KEY, _VALUE, _DUMMY);
+const model = new Cell<string>(_KEY, _VALUE, _DUMMY);
 
-class Controller extends ControllerClass {
-	protected cb: (data: NodeData) => void;
+class Controller extends ControllerClass<string, Cell<string>> {
+	protected cb: (data: string) => void;
 
-	public get getModel(): Cell {
-		return this.model as Cell;
+	public get getModel(): Cell<string> {
+		return this.model as Cell<string>;
 	}
 
-	public get getState(): NodeData {
-		return this.state as NodeData;
+	public get getState(): string {
+		return this.state;
 	}
 
 	public pubSkip(): void {
@@ -29,7 +28,7 @@ class Controller extends ControllerClass {
 		this.init();
 	}
 
-	public setCb(cb: (data: NodeData) => void): void {
+	public setCb(cb: (data: string) => void): void {
 		this.cb = cb;
 	}
 
@@ -50,7 +49,7 @@ describe("Controller case", (): void => {
 	it("controller update", (done: () => void): void => {
 		const newData = "newData";
 
-		const cb = (data: NodeData): void => {
+		const cb = (data: string): void => {
 			expect(data).toEqual(newData);
 			done();
 		};
@@ -63,7 +62,7 @@ describe("Controller case", (): void => {
 		const beforeSkip = "newData";
 		const afterSkip = "newData";
 
-		const cb = (data: NodeData): void => {
+		const cb = (data: string): void => {
 			expect(data).toEqual(afterSkip);
 			done();
 		};
