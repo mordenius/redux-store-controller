@@ -1,13 +1,13 @@
-import { IEmitter, EmitterListener, NodeData, CellData } from "../../index";
+import { IEmitter, EmitterListener, INodeData, CellData, Data } from "./interfaces";
 
 /**
  * Callback listeners controller
  */
-export class Emitter implements IEmitter {
+export class Emitter<Set extends INodeData | CellData<Data>> implements IEmitter<Set> {
 	/**
 	 * Collections of listeners
 	 */
-	private readonly listeners: Map<number, EmitterListener> = new Map();
+	private readonly listeners: Map<number, EmitterListener<Set>> = new Map();
 	/**
 	 * Count of listeners
 	 */
@@ -28,7 +28,7 @@ export class Emitter implements IEmitter {
 	 * Subscription of listener
 	 * @param listener Callback listener
 	 */
-	public subscribe(listener: EmitterListener): () => void {
+	public subscribe(listener: EmitterListener<Set>): () => void {
 		const index: number = this.index;
 		this.listeners.set(index, listener);
 		this.cnt += 1;
@@ -42,10 +42,12 @@ export class Emitter implements IEmitter {
 	 * @param data Current value
 	 * @param prevData Previously value
 	 */
-	public emit(data: NodeData | CellData, prevData?: NodeData | CellData): void {
-		this.listeners.forEach((value: EmitterListener): void => {
-			value.call(null, data, prevData);
-		});
+	public emit(data: Set, prevData?: Set): void {
+		this.listeners.forEach(
+			(value: EmitterListener<Set>): void => {
+				value.call(null, data, prevData);
+			}
+		);
 	}
 
 	/**

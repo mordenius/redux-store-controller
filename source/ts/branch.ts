@@ -1,11 +1,4 @@
-import {
-	IBranch,
-	INode,
-	ICell,
-	NodeData,
-	CellData,
-	EmitterListener
-} from "./../../index";
+import { IBranch, INodeData, Data, CellData, EmitterListener, ICell, INode } from "./interfaces";
 import { Cell } from "./cell";
 import { Node } from "./node";
 
@@ -18,25 +11,20 @@ export class Branch implements IBranch {
 	/**
 	 *
 	 */
-	private readonly cells: Map<string, ICell> = new Map();
+	private readonly cells: Map<string, ICell<Data>> = new Map();
 
 	/**
 	 *
 	 * @param path
 	 */
-	public getChild(path: string[]): INode | ICell | undefined {
+	public getChild<Child extends ICell<Data> | INode>(path: string[]): Child | undefined {
 		let index = 0;
-		let child: INode | ICell | undefined =
-			this.nodes.get(path[index]) || this.cells.get(path[index]);
+		let child = this.nodes.get(path[index]) || this.cells.get(path[index]);
 
-		while (
-			++index < path.length &&
-			child !== undefined &&
-			child instanceof Node
-		)
-			child = child.getChild(path[index]);
+		while (++index < path.length && child !== undefined && child instanceof Node)
+			child = child.getChild(path[index]) as Child;
 
-		return child;
+		return child as Child;
 	}
 
 	/**
@@ -45,7 +33,7 @@ export class Branch implements IBranch {
 	 * @param data
 	 * @param listener
 	 */
-	public addNode(key: string, data: NodeData, listener: EmitterListener): void {
+	public addNode(key: string, data: INodeData, listener: EmitterListener<INodeData>): void {
 		this.nodes.set(key, new Node(data, listener));
 	}
 
@@ -55,8 +43,8 @@ export class Branch implements IBranch {
 	 * @param data
 	 * @param listener
 	 */
-	public addCell(key: string, data: CellData, listener: EmitterListener): void {
-		this.cells.set(key, new Cell(key, data, listener));
+	public addCell(key: string, data: CellData<Data>, listener: EmitterListener<CellData<Data>>): void {
+		this.cells.set(key, new Cell<CellData<Data>>(key, data, listener));
 	}
 
 	/**
